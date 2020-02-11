@@ -1,2 +1,4 @@
 ﻿  main.cpp
+E:\Github\8570390-217CR\217-Hovercraft\main.cpp(28,28): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+E:\Github\8570390-217CR\217-Hovercraft\main.cpp(39,25): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   217-Hovercraft.vcxproj -> E:\Github\8570390-217CR\217-Hovercraft\Debug\217-Hovercraft.exe
