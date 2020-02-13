@@ -2,7 +2,27 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 
+#include <iostream>
+#include <vector>
+
 #pragma comment(lib, "glew32.lib") 
+
+#include "Cube.h"
+#include "Particle.h"
+#include "main.h"
+
+//Time Global Values
+float oldTimeSinceStart, newTimeSinceStart;
+
+//Object Vector
+std::vector<GameObject*> objects;
+
+//Creating Objects, cubes in this example
+GameObject* cube = new Cube(glm::vec3(1, 1, 0));
+GameObject* cube2 = new Cube(glm::vec3(3, 0, 1));
+
+//Creating particles
+GameObject* particle = new Particle(1.0f, glm::vec3(0, 0, 0));
 
 // Drawing routine.
 void drawScene()
@@ -13,6 +33,11 @@ void drawScene()
 
 	// Position the objects for viewing.
 	gluLookAt(0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		objects[i]->Draw();
+	}
 
 	glPushMatrix();
 	glColor3f(0, 1, 0);
@@ -49,6 +74,12 @@ void drawScene()
 void setup(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
+
+	//Adding objects to the vector
+	objects.push_back(cube);
+	objects.push_back(cube2);
+
+	objects.push_back(particle);
 }
 
 // OpenGL window reshape routine.
@@ -64,18 +95,54 @@ void resize(int w, int h)
 // Keyboard input processing routine.
 void keyInput(unsigned char key, int x, int y)
 {
-	switch (key)
-	{
-	case 27:
+	GameObject::keys[key] = true;
+	std::cout << "Key pressed: " << key << " : " << GameObject::keys[key] << std::endl;
+	//If we press escape, quit
+	if (key == 27)
 		exit(0);
-		break;
-	default:
-		break;
-	}
+}
+
+void keyInputUp(unsigned char key, int x, int y)
+{
+	GameObject::keys[key] = false;
+	std::cout << "Key pressed: " << key << " : " << GameObject::keys[key] << std::endl;
+}
+
+void keySpecialInput(int key, int x, int y)
+{
+	GameObject::specialKeys[key] = true;
+	std::cout << "Key pressed: " << key << " : " << GameObject::specialKeys[key] << std::endl;
+	//If we press escape, quit
+	if (key == 4)
+		exit(0);
+}
+
+void keySpecialInputUp(int key, int x, int y)
+{
+	GameObject::specialKeys[key] = false;
+	std::cout << "Key pressed: " << key << " : " << GameObject::specialKeys[key] << std::endl;
 }
 
 void idle()
 {
+	oldTimeSinceStart = newTimeSinceStart;
+	newTimeSinceStart = glutGet(GLUT_ELAPSED_TIME);
+
+	//std::cout << " --------------------------- " << std::endl;
+	//std::cout << "OldTimeSinceStart: " << oldTimeSinceStart << std::endl;
+	//std::cout << "NewTimeSinceStart: " << newTimeSinceStart << std::endl;
+
+	float deltaTime = (newTimeSinceStart - oldTimeSinceStart);
+	//std::cout << "Delta Time (ms): " << deltaTime << std::endl;
+	deltaTime /= 1000.f;
+	//std::cout << "Delta Time (seconds): " << deltaTime << std::endl;
+	//std::cout << " --------------------------- " << std::endl;
+
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		objects[i]->Update(deltaTime);
+	}
+
 	glutPostRedisplay();
 }
 
@@ -93,7 +160,13 @@ int main(int argc, char** argv)
 	glutCreateWindow("Week 1 - Basic Scene");
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(resize);
+
 	glutKeyboardFunc(keyInput);
+	glutKeyboardUpFunc(keyInputUp);
+
+	glutSpecialFunc(keySpecialInput);
+	glutSpecialUpFunc(keySpecialInputUp);
+
 	glutIdleFunc(idle);
 
 	glewExperimental = GL_TRUE;
