@@ -10,19 +10,24 @@
 #include "Cube.h"
 #include "Particle.h"
 #include "main.h"
+#include "Player.h"
 
 //Time Global Values
 float oldTimeSinceStart, newTimeSinceStart;
 
 //Object Vector
 std::vector<GameObject*> objects;
+std::vector<GameObject*> particles;
 
 //Creating Objects, cubes in this example
 GameObject* cube = new Cube(glm::vec3(1, 1, 0));
 GameObject* cube2 = new Cube(glm::vec3(3, 0, 1));
 
 //Creating particles
-GameObject* particle = new Particle(1.0f, glm::vec3(0, 0, 0));
+//GameObject* particle = new Particle(1.0f, glm::vec3(0, 0, 0));
+
+//Creating the Player
+GameObject* player = new Player(1.0f, glm::vec3(0, 0, 0));
 
 // Drawing routine.
 void drawScene()
@@ -79,7 +84,13 @@ void setup(void)
 	objects.push_back(cube);
 	objects.push_back(cube2);
 
-	objects.push_back(particle);
+	//objects.push_back(particle);
+
+	//Adding particles to the force generator
+	//particles.push_back(particle);
+
+	//Adding Player to the vector
+	objects.push_back(player);
 }
 
 // OpenGL window reshape routine.

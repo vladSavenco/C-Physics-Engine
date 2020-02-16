@@ -1,10 +1,10 @@
 #pragma once
+
 #include "GameObject.h"
 
-class Particle : public GameObject
+class Player : public GameObject
 {
 private:
-
 	float mass;
 
 	glm::vec3 acceleration;
@@ -12,11 +12,11 @@ private:
 	glm::vec3 totalForce;
 
 public:
-	Particle(float m, glm::vec3 pos);
-	~Particle();
-
-	void CalculateForces();
+	 Player(float mass, glm::vec3 pos);
+	 ~Player();
 
 	void Draw();
+	void CalculateForces();
 	void Update(float);
 };
+
