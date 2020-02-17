@@ -11,6 +11,7 @@
 #include "Particle.h"
 #include "main.h"
 #include "Player.h"
+#include "RigidBody2D.h"
 
 //Time Global Values
 float oldTimeSinceStart, newTimeSinceStart;
@@ -20,14 +21,17 @@ std::vector<GameObject*> objects;
 std::vector<GameObject*> particles;
 
 //Creating Objects, cubes in this example
-GameObject* cube = new Cube(glm::vec3(1, 1, 0));
-GameObject* cube2 = new Cube(glm::vec3(3, 0, 1));
+//GameObject* cube = new Cube(glm::vec3(1, 1, 0));
+//GameObject* cube2 = new Cube(glm::vec3(3, 0, 1));
 
 //Creating particles
 //GameObject* particle = new Particle(1.0f, glm::vec3(0, 0, 0));
 
 //Creating the Player
-GameObject* player = new Player(1.0f, glm::vec3(0, 0, 0));
+//GameObject* player = new Player(1.0f, glm::vec3(0, 0, 0));
+
+//Creating a rigid body
+GameObject* RigidBody = new RigidBody2D(glm::vec3(0, 0, 0));
 
 // Drawing routine.
 void drawScene()
@@ -44,7 +48,7 @@ void drawScene()
 		objects[i]->Draw();
 	}
 
-	glPushMatrix();
+	/*glPushMatrix();
 	glColor3f(0, 1, 0);
 	glBegin(GL_QUADS);
 	glVertex3f(5, 0, 5);
@@ -70,7 +74,7 @@ void drawScene()
 	glColor3f(1, 1, 1);
 	glutSolidCube(0.8);
 	glPopMatrix();
-	glPopMatrix();
+	glPopMatrix();*/
 
 	glutSwapBuffers();
 }
@@ -80,17 +84,22 @@ void setup(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
+	/*
 	//Adding objects to the vector
 	objects.push_back(cube);
 	objects.push_back(cube2);
 
-	//objects.push_back(particle);
+	objects.push_back(particle);
 
 	//Adding particles to the force generator
-	//particles.push_back(particle);
+	particles.push_back(particle);
 
 	//Adding Player to the vector
 	objects.push_back(player);
+	*/
+
+	//Adding the RigidBody to the vector
+	objects.push_back(RigidBody);
 }
 
 // OpenGL window reshape routine.
