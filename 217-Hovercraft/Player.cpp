@@ -26,8 +26,6 @@ void Player::Draw()
 
 void Player::CalculateForces()
 {
-	//totalForce = glm::vec3(0, 0, 0);
-	//totalForce += glm::vec3(0, -9.8f, 0) * mass;
 }
 
 void Player::Update(float deltaTime)
