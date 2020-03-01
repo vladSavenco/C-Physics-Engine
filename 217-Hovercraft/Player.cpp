@@ -1,7 +1,5 @@
 #include "Player.h"
 
-
-
 Player::Player(float mass, glm::vec3 pos) : GameObject(pos)
 {
 	this->mass = mass;
@@ -9,19 +7,24 @@ Player::Player(float mass, glm::vec3 pos) : GameObject(pos)
 	velocity = glm::vec3(0, 0, 0);
 	acceleration = glm::vec3(0, 0, 0);
 	totalForce = glm::vec3(0, 0, 0);
+
+	SpC = new SphereCollider(1.f, pos);
 }
 
 Player::~Player()
 {
+	delete SpC;
 }
 
 void Player::Draw()
 {
 	glPushMatrix();
-	glColor3f(1.f, 0.f, 1.0f);
+	glColor3f(0.35f, 0.46f, 0.84f);
 	glTranslatef(position.x, position.y, position.z);
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
+
+	SpC->Draw();
 }
 
 void Player::CalculateForces()
@@ -58,6 +61,7 @@ void Player::Update(float deltaTime)
 
 	velocity = newVelocity;
 	position = newPosition;
+	SpC->ChangePosition(newPosition);
 
 	velocity *= pow(0.5, deltaTime);
 }

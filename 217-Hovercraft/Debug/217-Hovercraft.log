@@ -1,2 +1,10 @@
-﻿  main.cpp
+﻿  GameEngine.cpp
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(12,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(15,20): warning C4018: '<': signed/unsigned mismatch
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(33,20): warning C4018: '<': signed/unsigned mismatch
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(43,20): warning C4018: '<': signed/unsigned mismatch
+  Player.cpp
+  SphereCollider.cpp
+  main.cpp
+  Generating Code...
   217-Hovercraft.vcxproj -> E:\Github\8570390-217CR\217-Hovercraft\Debug\217-Hovercraft.exe
