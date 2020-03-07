@@ -18,7 +18,7 @@ bool SphereCollider::CollideCheck(SphereCollider& other)
 	distance = sqrt(pow(position.y-other.position.y,2)+pow(position.x-other.position.x,2));
 	totalRadius = radius + other.radius;
 
-	if (radius >= distance)
+	if (totalRadius >= distance)
 		return true;
 	else
 		return false;

@@ -19,12 +19,14 @@ void Particle::Draw()
 	glTranslatef(position.x, position.y, position.z);
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
+
+	SpC->Draw();
 }
 
 void Particle::CalculateForces()
 {
 	totalForce = glm::vec3(0, 0, 0);
-	totalForce += glm::vec3(0, -9.8f, 0) * mass;
+	totalForce += glm::vec3(0, 0.f, 0) * mass; //9.8f instead of 0.f for gravity.
 }
 
 void Particle::Update(float deltaTime)

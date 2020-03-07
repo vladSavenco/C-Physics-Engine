@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 #include <map>
+#include "SphereCollider.h"
 
 class GameObject
 {
@@ -13,7 +14,9 @@ protected:
 public:
 
 	static std::map<char, bool> keys;
-	static std::map<int, bool> specialKeys;
+	static std::map<int, bool> specialKeys;;
+
+	SphereCollider* SpC;
 
 	GameObject();
 	GameObject(glm::vec3 pos);

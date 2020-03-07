@@ -10,6 +10,8 @@ GameObject::GameObject()
 GameObject::GameObject(glm::vec3 pos)
 {
 	position = pos;
+
+	SpC = new SphereCollider(1.f, pos);
 }
 
 

@@ -7,13 +7,10 @@ Player::Player(float mass, glm::vec3 pos) : GameObject(pos)
 	velocity = glm::vec3(0, 0, 0);
 	acceleration = glm::vec3(0, 0, 0);
 	totalForce = glm::vec3(0, 0, 0);
-
-	SpC = new SphereCollider(1.f, pos);
 }
 
 Player::~Player()
 {
-	delete SpC;
 }
 
 void Player::Draw()

@@ -12,6 +12,17 @@ void GameEngine::UpdateGame(void)
 	float deltaTime = (newTimeSinceStart - oldTimeSinceStart);
 	deltaTime /= 1000.f;
 
+	glm::vec3 red(1.0, 0.0, 0.0);
+
+	for (int i = 0; i < objects.size()-1; i++)
+		for (int j = i + 1; j < objects.size(); j++)
+		{
+			if (objects[i]->SpC->CollideCheck(*objects[j]->SpC))
+			{
+				//objects[i]->Draw(glColor3f(1.0, 0.0, 0.0));
+			}
+		}
+
 	for (int i = 0; i < objects.size(); ++i)
 	{
 		objects[i]->Update(deltaTime);

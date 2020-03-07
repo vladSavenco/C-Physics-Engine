@@ -15,6 +15,8 @@
 #include "Player.h"
 #include "RigidBody2D.h"
 
+#include "SphereCollider.h"
+
 class GameEngine
 {
 private:
