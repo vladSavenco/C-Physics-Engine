@@ -1,16 +1,4 @@
-﻿  Collider.cpp
-  Cube.cpp
-  ForceGenerator.cpp
-  GameEngine.cpp
-E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(12,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  GameObject.cpp
-  main.cpp
-  Particle.cpp
-  Player.cpp
-  RigidBody2D.cpp
-  SphereCollider.cpp
-  Generating Code...
-Cube.obj : error LNK2019: unresolved external symbol __imp_glutSolidCube referenced in function "public: virtual void __cdecl Cube::Draw(void)" (?Draw@Cube@@UEAAXXZ)
+﻿Cube.obj : error LNK2019: unresolved external symbol __imp_glutSolidCube referenced in function "public: virtual void __cdecl Cube::Draw(void)" (?Draw@Cube@@UEAAXXZ)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glewInit referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitWindowPosition referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitWindowSize referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)

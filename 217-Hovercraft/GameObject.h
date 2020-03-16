@@ -11,12 +11,13 @@ class GameObject
 
 protected:
 	glm::vec3 position;
+
 public:
 
 	static std::map<char, bool> keys;
 	static std::map<int, bool> specialKeys;;
 
-	SphereCollider* SpC;
+	SphereCollider SpC;
 
 	GameObject();
 	GameObject(glm::vec3 pos);

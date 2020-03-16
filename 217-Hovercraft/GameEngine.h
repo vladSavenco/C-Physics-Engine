@@ -15,12 +15,16 @@
 #include "Player.h"
 #include "RigidBody2D.h"
 
+#include "ColisionData.h"
+
 #include "SphereCollider.h"
 
 class GameEngine
 {
-private:
+
 	static std::vector<GameObject*> objects;
+	static std::vector<ColisionData> objData;
+
 	static int oldTimeSinceStart;
 	static int newTimeSinceStart;
 

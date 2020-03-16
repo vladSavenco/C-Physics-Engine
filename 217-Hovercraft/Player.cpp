@@ -21,7 +21,7 @@ void Player::Draw()
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
 
-	SpC->Draw();
+	SpC.Draw();
 }
 
 void Player::CalculateForces()
@@ -58,7 +58,7 @@ void Player::Update(float deltaTime)
 
 	velocity = newVelocity;
 	position = newPosition;
-	SpC->ChangePosition(newPosition);
+	SpC.ChangePosition(newPosition);
 
 	velocity *= pow(0.5, deltaTime);
 }

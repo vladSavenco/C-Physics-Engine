@@ -20,7 +20,7 @@ void Particle::Draw()
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
 
-	SpC->Draw();
+	SpC.Draw();
 }
 
 void Particle::CalculateForces()

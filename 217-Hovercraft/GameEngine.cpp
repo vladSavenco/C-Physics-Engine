@@ -1,6 +1,8 @@
 #include "GameEngine.h"
+using namespace std;
 
 std::vector<GameObject*> GameEngine::objects;
+std::vector<ColisionData> GameEngine::objData;
 int GameEngine::oldTimeSinceStart;
 int GameEngine::newTimeSinceStart;
 
@@ -14,18 +16,49 @@ void GameEngine::UpdateGame(void)
 
 	glm::vec3 red(1.0, 0.0, 0.0);
 
-	for (int i = 0; i < objects.size()-1; i++)
+	//Check for collision 
+	for (int i = 0; i < objects.size() - 1; i++)
+	{
 		for (int j = i + 1; j < objects.size(); j++)
 		{
-			if (objects[i]->SpC->CollideCheck(*objects[j]->SpC))
+			if (i == j)
 			{
-				//objects[i]->Draw(glColor3f(1.0, 0.0, 0.0));
+				continue;
+			}
+			else
+			{
+				ColisionData* colData = nullptr;
+				colData = new ColisionData;
+
+				if (objects[i]->SpC.CollideCheck(objects[j]->SpC, *colData))
+				{
+					cout << "Depth:"<<colData->depth<<",normal("<<colData->normal.x<<","<<colData->normal.y<<","<<colData->normal.z<<"), point("
+						<<colData->point.x << "," << colData->point.y << "," << colData->point.z<<")" << '\r';
+					colData->obj1 = objects[i];
+					colData->obj2 = objects[j];
+					objData.push_back(*colData);
+					
+					objects[i]->SpC.collision = true;
+					objects[j]->SpC.collision = true;
+				}
+				else
+				{
+					cout << "Not Collided" << '\r';
+					objects[i]->SpC.collision = false;
+					objects[j]->SpC.collision = false;
+				}
 			}
 		}
+	}
 
 	for (int i = 0; i < objects.size(); ++i)
 	{
 		objects[i]->Update(deltaTime);
+	}
+
+	for (int i = 0; i < objData.size(); ++i)
+	{
+		delete &objData[i];
 	}
 
 	glutPostRedisplay();
