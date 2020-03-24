@@ -14,7 +14,9 @@
 class Mesh
 {
 private:
+	Vertex* vertexArray;
 	unsigned nrOfVertices;
+	GLuint* indexArray;
 	unsigned nrOfIndices;
 
 	GLuint VAO;
@@ -22,53 +24,45 @@ private:
 	GLuint EBO;
 
 	glm::vec3 position;
+	glm::vec3 originPos;
 	glm::vec3 rotation;
 	glm::vec3 scale;
 	glm::mat4 ModelMatrix;
 
-	void initVAO(Primitives* primitive);
-
-	void initVAO(Vertex* vertexArray, const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndicies);
+	void initVAO();
 
 	void updateUniforms(Shader* shader);
 
 	void updateModelMatrix();
 
 public:
-	Mesh(Primitives* primitive,
-		glm::vec3 position,
-		glm::vec3 rotation,
-		glm::vec3 scale);
+	Mesh(Primitives* primitive, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
-	Mesh(Vertex* vertexArray,
-		const unsigned& nrOfVertices,
-		GLuint* indexArray,
-		const unsigned& nrOfIndicies,
-		glm::vec3 position,
-		glm::vec3 rotation,
-		glm::vec3 scale);
+	Mesh(Vertex* vertexArray, const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndicies, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+
+	Mesh(const Mesh& obj);
 
 	~Mesh();
 
-	//Access Functions
+	//Movement for initial placement
+	void setOriginPos(const glm::vec3& originPos);
 
-	//Modifiers
 	void setPosition(const glm::vec3& position);
 
 	void setRotation(const glm::vec3& rotation);
 
 	void setScale(const glm::vec3 setScale);
 
-	//Functions
+	//Movement Functions - to be used with key presses
 	void move(const glm::vec3 position);
 
 	void rotate(const glm::vec3 rotation);
 
 	void scaleUp(const glm::vec3 scale);
 
+	//Update and Render
 	void update();
 
 	void render(Shader* shader);
 
 };
-

@@ -1,13 +1,11 @@
 #include "RigidBody2D.h"
 #include <iostream>
-#include <glm/gtx/string_cast.hpp>
 
-RigidBody2D::RigidBody2D(float m, float length, float width, glm::vec3 position) : GameObject(position)
+
+RigidBody2D::RigidBody2D(float mas, float length, float width, glm::vec3 position) : GameObject(position,mas)
 {
 	force1 = glm::vec3(1, 0, 0);
 	force2 = glm::vec3(2, 0, 0);
-
-	mass = m;
 
 	inertia = 1.0f / 6.0f;
 	std::cout << "Inertia= " << inertia << std::endl;

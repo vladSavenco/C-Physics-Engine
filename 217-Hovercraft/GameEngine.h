@@ -9,7 +9,6 @@
 
 #pragma comment(lib, "glew32.lib") 
 
-#include "Cube.h"
 #include "Particle.h"
 #include "main.h"
 #include "Player.h"
@@ -23,7 +22,7 @@ class GameEngine
 {
 
 	static std::vector<GameObject*> objects;
-	static std::vector<ColisionData> objData;
+	static std::vector<ColisionData*> objData;
 
 	static int oldTimeSinceStart;
 	static int newTimeSinceStart;

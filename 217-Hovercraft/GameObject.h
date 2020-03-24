@@ -3,24 +3,30 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
+
 #include <map>
 #include "SphereCollider.h"
+#include "BoxCollider.h"
 
 class GameObject
 {
 
 protected:
-	glm::vec3 position;
+
 
 public:
+	glm::vec3 position;
+	glm::vec3 velocity;
+	float mass;
 
 	static std::map<char, bool> keys;
 	static std::map<int, bool> specialKeys;;
 
 	SphereCollider SpC;
+	BoxCollider BoC;
 
 	GameObject();
-	GameObject(glm::vec3 pos);
+	GameObject(glm::vec3 pos,float mas);
 	~GameObject();
 
 	virtual void Draw()=0;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libs.h"
+#include "ObjectLoader.h"
 
 //Enumerations, for each element. Need to be declared before they are created in the cpp file
 enum shader_enum
@@ -10,12 +11,14 @@ enum shader_enum
 
 enum texture_enum
 {
-	TEX_PANZER0=0, TEX_GEORGE1=1
+	TEX_PANZER=0,TEX_PANZER_SPECULAR, TEX_GEORGE, TEX_GEORGE_SPECULAR
 };
+
 enum material_enum
 {
 	MAT_1=0
 };
+
 enum mesh_enum
 {
 	MESH_QUAD = 0
@@ -69,14 +72,13 @@ private:
 	void initShaders();
 	void initTextures();
 	void initMaterials();
+	void initObjFromFile();
 	void initMeshes();
 	void initLights();
 	void initUniforms();
-
 	void updateUniforms();
 
 public:
-	//Constructors & Distructors
 	GameEngine(const char* title, const int Window_Width, const int Window_Height, const int GL_Version_Major, const int GL_Version_Minor, bool resizable);
 	virtual ~GameEngine();
 
@@ -92,7 +94,5 @@ public:
 
 	//Static Functions
 	static void frameBuffer_resize_callback(GLFWwindow* window, int fbW, int fbH);
-	static void updateInput(GLFWwindow* window);
-	static void updateInput(GLFWwindow* window, Mesh &mesh);
 };
 

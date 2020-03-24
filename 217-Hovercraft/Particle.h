@@ -4,15 +4,12 @@
 class Particle : public GameObject
 {
 private:
-
-	float mass;
+public:
 
 	glm::vec3 acceleration;
-	glm::vec3 velocity;
 	glm::vec3 totalForce;
 
-public:
-	Particle(float m, glm::vec3 pos);
+	Particle(float mas, glm::vec3 pos);
 	~Particle();
 
 	void CalculateForces();

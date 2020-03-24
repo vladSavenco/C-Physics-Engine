@@ -56,7 +56,6 @@ void SphereCollider::Draw()
 {
 	checkCollision();
 	glPushMatrix();
-	//glColor3f(1.0f, 1.0f, 1.0f);
 	glColor3f(currentColor.x,currentColor.y,currentColor.z);
 	glTranslatef(position.x, position.y, position.z);
 	glutWireSphere(radius, 10, 10);

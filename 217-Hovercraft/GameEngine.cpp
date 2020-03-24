@@ -2,7 +2,7 @@
 using namespace std;
 
 std::vector<GameObject*> GameEngine::objects;
-std::vector<ColisionData> GameEngine::objData;
+std::vector<ColisionData*> GameEngine::objData;
 int GameEngine::oldTimeSinceStart;
 int GameEngine::newTimeSinceStart;
 
@@ -32,23 +32,68 @@ void GameEngine::UpdateGame(void)
 
 				if (objects[i]->SpC.CollideCheck(objects[j]->SpC, *colData))
 				{
-					cout << "Depth:"<<colData->depth<<",normal("<<colData->normal.x<<","<<colData->normal.y<<","<<colData->normal.z<<"), point("
-						<<colData->point.x << "," << colData->point.y << "," << colData->point.z<<")" << '\r';
+					/*cout << "Depth:"<<colData->depth<<",normal("<<colData->normal.x<<","<<colData->normal.y<<","<<colData->normal.z<<"), point("
+						<<colData->point.x << "," << colData->point.y << "," << colData->point.z<<")           " << '\r';*/
+
 					colData->obj1 = objects[i];
 					colData->obj2 = objects[j];
-					objData.push_back(*colData);
+					objData.push_back(colData);
 					
 					objects[i]->SpC.collision = true;
 					objects[j]->SpC.collision = true;
 				}
 				else
 				{
-					cout << "Not Collided" << '\r';
+					//cout << "Not Collided" << '\r';
 					objects[i]->SpC.collision = false;
 					objects[j]->SpC.collision = false;
 				}
+
+				if (objects[i]->BoC.CollideCheck(objects[j]->BoC, *colData))
+				{
+					/*cout << "Depth:"<<colData->depth<<",normal("<<colData->normal.x<<","<<colData->normal.y<<","<<colData->normal.z<<"), point("
+						<<colData->point.x << "," << colData->point.y << "," << colData->point.z<<")           " << '\r';*/
+
+					colData->obj1 = objects[i];
+					colData->obj2 = objects[j];
+					objData.push_back(colData);
+
+					objects[i]->BoC.collision = true;
+					objects[j]->BoC.collision = true;
+				}
+				else
+				{
+					//cout << "Not Collided" << '\r';
+					objects[i]->BoC.collision = false;
+					objects[j]->BoC.collision = false;
+				}
+
 			}
 		}
+	}
+
+	for (int i = objData.size() - 1; i >= 0; --i)
+	{
+		GameObject* obj1 = objData[i]->obj1;
+		GameObject* obj2 = objData[i]->obj2;
+		float val1;
+		float val2;
+		float impulse;
+
+		val1 = glm::dot(-(obj1->velocity - obj2->velocity), objData[i]->normal);
+		//Elasticity coeficient
+		//val1 *= (1 + obj1->mass);
+
+		val2 = glm::dot(objData[i]->normal, objData[i]->normal);
+		val2 *= (1 / obj1->mass + 1 / obj2->mass);
+
+		impulse = val1 / val2;
+
+		obj1->velocity += (impulse / obj1->mass) * objData[i]->normal;
+		obj2->velocity -= (impulse / obj1->mass) * objData[i]->normal;
+
+		obj1->position = obj1->position + (objData[i]->depth * objData[i]->normal);
+		obj2->position = obj2->position - (objData[i]->depth * objData[i]->normal);
 	}
 
 	for (int i = 0; i < objects.size(); ++i)
@@ -56,10 +101,11 @@ void GameEngine::UpdateGame(void)
 		objects[i]->Update(deltaTime);
 	}
 
-	for (int i = 0; i < objData.size(); ++i)
+	for (int i = objData.size() - 1; i >= 0 ; --i)
 	{
-		delete &objData[i];
+		delete objData[i];
 	}
+	objData.clear();
 
 	glutPostRedisplay();
 }

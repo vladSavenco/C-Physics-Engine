@@ -1,12 +1,11 @@
 #include "Player.h"
 
-Player::Player(float mass, glm::vec3 pos) : GameObject(pos)
+Player::Player(float mas, glm::vec3 pos) : GameObject(pos,mas)
 {
-	this->mass = mass;
-
-	velocity = glm::vec3(0, 0, 0);
 	acceleration = glm::vec3(0, 0, 0);
 	totalForce = glm::vec3(0, 0, 0);
+	inertia = 1.f / 6.f;
+	orientation = 0.f;
 }
 
 Player::~Player()
@@ -18,10 +17,12 @@ void Player::Draw()
 	glPushMatrix();
 	glColor3f(0.35f, 0.46f, 0.84f);
 	glTranslatef(position.x, position.y, position.z);
-	glutSolidSphere(0.5f, 10, 10);
+	glRotatef(orientation, 0, 0, 1);
+	glutSolidCube(1.f);
 	glPopMatrix();
 
-	SpC.Draw();
+	//SpC.Draw();
+	BoC.Draw();
 }
 
 void Player::CalculateForces()
@@ -31,26 +32,34 @@ void Player::CalculateForces()
 void Player::Update(float deltaTime)
 {
 	totalForce = glm::vec3(0, 0, 0);
+	RotationTotalForce = glm::vec3(0, 0, 0);
 
+	//Keyboard Input
 	if (GameObject::specialKeys[GLUT_KEY_UP])
 	{
-		totalForce += glm::vec3(0, 1, 0);
+		totalForce += glm::vec3(0, 5, 0);
 	}
 	if (GameObject::specialKeys[GLUT_KEY_DOWN])
 	{
-		totalForce += glm::vec3(0, -1, 0);
+		totalForce += glm::vec3(0, -5, 0);
 	}
 	if (GameObject::specialKeys[GLUT_KEY_RIGHT])
 	{
-		totalForce += glm::vec3(-1, 0,0);
+		RotationTotalForce += glm::cross(glm::vec3(1, 1, 0), glm::vec3(-50, 0, 0));
 	}
 	if (GameObject::specialKeys[GLUT_KEY_LEFT])
 	{
-		totalForce += glm::vec3(1, 0,0);
+		RotationTotalForce += glm::cross(glm::vec3(-1, 1, 0), glm::vec3(50, 0, 0));
 	}
+
+	auto rotatedVec=glm::rotate(totalForce, glm::radians(orientation), glm::vec3(0.f,0.f,1.f));
+
+	totalForce = rotatedVec;
 
 	glm::vec3 newVelocity;
 	glm::vec3 newPosition;
+
+	CalculateForces();
 
 	acceleration = totalForce / mass;
 	newVelocity = velocity + acceleration * deltaTime;
@@ -58,7 +67,24 @@ void Player::Update(float deltaTime)
 
 	velocity = newVelocity;
 	position = newPosition;
-	SpC.ChangePosition(newPosition);
 
+	//SpC.ChangePosition(newPosition);
+	BoC.ChangePosition(newPosition);
+
+	//Dampen
 	velocity *= pow(0.5, deltaTime);
+
+	//Angular
+	glm::vec3 newAngVelocity;
+
+	angularAcceleration = RotationTotalForce / inertia;
+	newAngVelocity = angularVelocity + angularAcceleration * deltaTime;
+
+	//std::cout << "VEL: " <<  glm::to_string(angularVelocity) << std::endl;
+	float newOrientation = orientation + angularVelocity.z * deltaTime;
+
+	angularVelocity = newAngVelocity;
+	orientation = newOrientation;
+	//std::cout << "ORI: " << orientation << std::endl;
+	angularVelocity *= pow(0.1, deltaTime);
 }

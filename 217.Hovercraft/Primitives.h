@@ -36,3 +36,9 @@ class Quad : public Primitives
 public:
 	Quad();
 };
+
+class Pyramid : public Primitives
+{
+public:
+	Pyramid();
+};

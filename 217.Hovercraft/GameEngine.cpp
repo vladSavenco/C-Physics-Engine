@@ -72,21 +72,31 @@ void GameEngine::initTextures()
 {
     //Texture 0
     this->textures.push_back(new Texture ("Images/panzer.jpg", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/panzerSpecular.jpg", GL_TEXTURE_2D));
 
     //Texture 1
     this->textures.push_back(new Texture("Images/george.jpg", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/georgeSpecular.jpg", GL_TEXTURE_2D));
 }
 
 //Initialise Materials
 void GameEngine::initMaterials()
 {
-    this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),0,1));
+    this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(2.f),0,1));
 }
 
-//Initialise Meshes
+void GameEngine::initObjFromFile()
+{
+    //std::vector<Vertex>hoverCraft = objectLoader("ObjModels/Hovercraft.obj");
+}
+
 void GameEngine::initMeshes()
 {
-    this->meshes.push_back(new Mesh(&Quad(), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.5f)));
+    std::vector<Vertex>hoverCraft = objectLoader("ObjModels/Hovercraft.obj");
+
+    this->meshes.push_back(new Mesh(hoverCraft.data(),hoverCraft.size(),NULL,0, glm::vec3(0.f,0.f,2.f), glm::vec3(0.f), glm::vec3(1.f)));
+
+    this->meshes.push_back(new Mesh(&Pyramid(), glm::vec3(2.f,0.f,0.f), glm::vec3(0.f), glm::vec3(1.f)));
 }
 
 //Initialise Lights in scene
@@ -107,9 +117,6 @@ void GameEngine::initUniforms()
 
 void GameEngine::updateUniforms()
 {
-    //Update uniforms
-    this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
-
     //Update framebuffer size and projection matrix
     glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 
@@ -142,10 +149,12 @@ GameEngine::GameEngine(const char* title, const int Window_Width, const int Wind
 	this->initWindow(title,resizable);
     this->initGLEW();
     this->initOpenGLOptions();
+
     this->initMatrices();
     this->initShaders();
     this->initTextures();
     this->initMaterials();
+    this->initObjFromFile();
     this->initMeshes();
     this->initLights();
     this->initUniforms();
@@ -202,7 +211,7 @@ void GameEngine::update()
     //Update input
     glfwPollEvents();
 
-    this->updateInput(this->window, *this->meshes[MESH_QUAD]);
+    
 }
 
 void GameEngine::render()
@@ -218,15 +227,23 @@ void GameEngine::render()
     //Update the uniforms
     this->updateUniforms();
 
-    //Use a program
+    //Update uniforms
+    this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
+
+    //Use program
     this->shaders[SHADER_CORE_PROGRAM]->use();
 
     //Activate texture
-    this->textures[TEX_GEORGE1]->bind(0);
-    this->textures[TEX_PANZER0]->bind(1);
+    this->textures[TEX_GEORGE]->bind(0);
+    this->textures[TEX_GEORGE_SPECULAR]->bind(1);
 
     //Draw
-    this->meshes[MESH_QUAD]->render(this->shaders[SHADER_CORE_PROGRAM]);
+    this->meshes[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
+
+    this->textures[TEX_PANZER]->bind(0);
+    this->textures[TEX_PANZER_SPECULAR]->bind(1);
+
+    this->meshes[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
 
     //End draw
     glfwSwapBuffers(window);
@@ -241,53 +258,4 @@ void GameEngine::render()
 void GameEngine::frameBuffer_resize_callback(GLFWwindow* window, int fbW, int fbH)
 {
     glViewport(0, 0, fbW, fbH);
-}
-
-void GameEngine::updateInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    }
-}
-
-void GameEngine::updateInput(GLFWwindow* window, Mesh& mesh)
-{
-    //Movement
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        mesh.move(glm::vec3(0.f, 0.f, -0.001f));
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        mesh.move(glm::vec3(0.f, 0.f, 0.001f));
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        mesh.move(glm::vec3(-0.001f, 0.f, 0.f));
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        mesh.move(glm::vec3(0.001f, 0.f, 0.f));
-    }
-
-    //Rotation
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        mesh.rotate(glm::vec3(0.f, -0.1f, 0.f));
-    }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        mesh.rotate(glm::vec3(0.f, 0.1f, 0.f));
-    }
-
-    //Scale
-    if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-    {
-        mesh.scaleUp(glm::vec3(0.01f));
-    }
-    if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-    {
-        mesh.scaleUp(glm::vec3(-0.01f));
-    }
 }
