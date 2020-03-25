@@ -41,7 +41,7 @@ void GameEngine::initOpenGLOptions()
 {
     glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_CULL_FACE);
+    glEnable(GL_FRONT);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
 
@@ -77,6 +77,14 @@ void GameEngine::initTextures()
     //Texture 1
     this->textures.push_back(new Texture("Images/george.jpg", GL_TEXTURE_2D));
     this->textures.push_back(new Texture("Images/georgeSpecular.jpg", GL_TEXTURE_2D));
+
+    //Texture 3
+    this->textures.push_back(new Texture("Images/Skybox.jpg", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/SkyboxSpecular.jpg", GL_TEXTURE_2D));
+
+    //Texture 4
+    this->textures.push_back(new Texture("Images/Grass.jpg", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/GrassSpecular.jpg", GL_TEXTURE_2D));
 }
 
 //Initialise Materials
@@ -90,13 +98,50 @@ void GameEngine::initObjFromFile()
     //std::vector<Vertex>hoverCraft = objectLoader("ObjModels/Hovercraft.obj");
 }
 
-void GameEngine::initMeshes()
+void GameEngine::initModels()
 {
-    std::vector<Vertex>hoverCraft = objectLoader("ObjModels/Hovercraft.obj");
+    //Creating the skybox
+    std::vector<Mesh*>skyboxMesh;
 
-    this->meshes.push_back(new Mesh(hoverCraft.data(),hoverCraft.size(),NULL,0, glm::vec3(0.f,0.f,2.f), glm::vec3(0.f), glm::vec3(1.f)));
+    std::vector<Vertex>skyBox = objectLoader("ObjModels/Skybox.obj");
 
-    this->meshes.push_back(new Mesh(&Pyramid(), glm::vec3(2.f,0.f,0.f), glm::vec3(0.f), glm::vec3(1.f)));
+    //meshes.push_back(new Mesh(&Pyramid(), glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f)));
+    skyboxMesh.push_back(new Mesh(skyBox.data(), skyBox.size(),NULL,0, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(10.f)));
+
+    this->models.push_back(new Model(glm::vec3(0.f,0.f,0.f), this->materials[0], this->textures[TEX_SKYBOX], this->textures[TEX_SKYBOX_SPECULAR],skyboxMesh));
+
+    for (auto*& i : skyboxMesh)
+    {
+        delete i;
+    }
+
+    //Creating the grass plane
+    std::vector<Mesh*>grassPlaneMesh;
+
+    std::vector<Vertex>grassPlane = objectLoader("ObjModels/GrassPlane.obj");
+
+    grassPlaneMesh.push_back(new Mesh(grassPlane.data(), grassPlane.size(), NULL, 0, glm::vec3(0.f, -2.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(2.f)));
+
+    this->models.push_back(new Model(glm::vec3(0.f, 0.f, 0.f), this->materials[0], this->textures[TEX_GRASS], this->textures[TEX_GRASS_SPECULAR], grassPlaneMesh));
+
+    for (auto*& i : grassPlaneMesh)
+    {
+        delete i;
+    }
+
+    //Creating the Track
+    std::vector<Mesh*>raceTrack;
+
+    std::vector<Vertex>track = objectLoader("ObjModels/RaceTrack.obj");
+
+    raceTrack.push_back(new Mesh(track.data(), track.size(), NULL, 0, glm::vec3(0.f, -2.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.4f)));
+
+    this->models.push_back(new Model(glm::vec3(0.f, 0.f, 0.f), this->materials[0], this->textures[TEX_PANZER], this->textures[TEX_PANZER_SPECULAR], raceTrack));
+
+    for (auto*& i : raceTrack)
+    {
+        delete i;
+    }
 }
 
 //Initialise Lights in scene
@@ -155,7 +200,7 @@ GameEngine::GameEngine(const char* title, const int Window_Width, const int Wind
     this->initTextures();
     this->initMaterials();
     this->initObjFromFile();
-    this->initMeshes();
+    this->initModels();
     this->initLights();
     this->initUniforms();
 }
@@ -181,9 +226,9 @@ GameEngine::~GameEngine()
         delete this->materials[i];
     }
 
-    for (size_t i = 0; i < this->meshes.size(); i++)
+    for (auto*& i : this->models)
     {
-        delete this->meshes[i];
+        delete i;
     }
 
     for (size_t i = 0; i < this->lights.size(); i++)
@@ -191,7 +236,6 @@ GameEngine::~GameEngine()
         delete this->lights[i];
     }
 }
-
 
 //Accessor
 int GameEngine::GetWindowShouldClose()
@@ -211,7 +255,7 @@ void GameEngine::update()
     //Update input
     glfwPollEvents();
 
-    
+    //models[0]->rotate(glm::vec3(0.f, 0.01f, 0.f));
 }
 
 void GameEngine::render()
@@ -221,29 +265,17 @@ void GameEngine::render()
 
     //Draw--
     //Clear
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(0.f, 0.f, 1.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     //Update the uniforms
     this->updateUniforms();
 
-    //Update uniforms
-    this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
-
-    //Use program
-    this->shaders[SHADER_CORE_PROGRAM]->use();
-
-    //Activate texture
-    this->textures[TEX_GEORGE]->bind(0);
-    this->textures[TEX_GEORGE_SPECULAR]->bind(1);
-
-    //Draw
-    this->meshes[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
-
-    this->textures[TEX_PANZER]->bind(0);
-    this->textures[TEX_PANZER_SPECULAR]->bind(1);
-
-    this->meshes[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
+    //Rendering the models
+    for (auto& i : this->models)
+    {
+        i->render(this->shaders[SHADER_CORE_PROGRAM]);
+    }
 
     //End draw
     glfwSwapBuffers(window);

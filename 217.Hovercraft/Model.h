@@ -21,9 +21,10 @@ public:
 
 	~Model();
 
-	//Functions
+	//movement Functions
 	void rotate(const glm::vec3 rotation);
 
+	//Rendering function
 	void update();
 	void render(Shader* shader);
 };

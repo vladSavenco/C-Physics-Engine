@@ -14,6 +14,7 @@
 class Mesh
 {
 private:
+	//Making the mesh keep its own vertex data
 	Vertex* vertexArray;
 	unsigned nrOfVertices;
 	GLuint* indexArray;
@@ -23,6 +24,7 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 
+	//Pos,Origin,rotation,scale values
 	glm::vec3 position;
 	glm::vec3 originPos;
 	glm::vec3 rotation;
@@ -36,9 +38,9 @@ private:
 	void updateModelMatrix();
 
 public:
-	Mesh(Primitives* primitive, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+	Mesh(Primitives* primitive, glm::vec3 position, glm::vec3 originPos, glm::vec3 rotation, glm::vec3 scale);
 
-	Mesh(Vertex* vertexArray, const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndicies, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+	Mesh(Vertex* vertexArray, const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndicies, glm::vec3 position, glm::vec3 originPos, glm::vec3 rotation, glm::vec3 scale);
 
 	Mesh(const Mesh& obj);
 
@@ -58,7 +60,7 @@ public:
 
 	void rotate(const glm::vec3 rotation);
 
-	void scaleUp(const glm::vec3 scale);
+	void scaleMesh(const glm::vec3 scale);
 
 	//Update and Render
 	void update();

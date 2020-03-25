@@ -1,5 +1,6 @@
 ﻿  GameEngine.cpp
 E:\VisualStudio\217-Hovercraft\Material.h(14,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-E:\VisualStudio\217-Hovercraft\GameEngine.cpp(97,136): warning C4316: 'Mesh': object allocated on the heap may not be aligned 16
-E:\VisualStudio\217-Hovercraft\GameEngine.cpp(99,104): warning C4316: 'Mesh': object allocated on the heap may not be aligned 16
+E:\VisualStudio\217-Hovercraft\GameEngine.cpp(109,146): warning C4316: 'Mesh': object allocated on the heap may not be aligned 16
+E:\VisualStudio\217-Hovercraft\GameEngine.cpp(123,160): warning C4316: 'Mesh': object allocated on the heap may not be aligned 16
+E:\VisualStudio\217-Hovercraft\GameEngine.cpp(137,146): warning C4316: 'Mesh': object allocated on the heap may not be aligned 16
   217-Hovercraft.vcxproj -> E:\VisualStudio\217-Hovercraft\Debug\217-Hovercraft.exe

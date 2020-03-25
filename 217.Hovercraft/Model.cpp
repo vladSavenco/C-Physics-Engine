@@ -53,10 +53,10 @@ void Model::render(Shader* shader)
 	//Update the uniforms
 	this->material->sendToShader(*shader);
 
-	//Use a program
+	//Use the shader program
 	shader->use();
 
-	//Activate texture
+	//Binding the textures
 	this->TexDiffuse->bind(0);
 	this->TexSpecular->bind(1);
 

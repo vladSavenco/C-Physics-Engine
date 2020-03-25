@@ -54,7 +54,7 @@ void Mesh::updateModelMatrix()
 }
 
 //Create the mesh using the primitive forms
-Mesh::Mesh(Primitives* primitive, glm::vec3 position=glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), glm::vec3 scale = glm::vec3(1.f))
+Mesh::Mesh(Primitives* primitive, glm::vec3 position=glm::vec3(0.f), glm::vec3 originPos = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f), glm::vec3 scale = glm::vec3(1.f))
 {
     this->position = position;
     this->originPos = originPos;
@@ -81,7 +81,7 @@ Mesh::Mesh(Primitives* primitive, glm::vec3 position=glm::vec3(0.f), glm::vec3 r
 }
 
 //Create the mesh from a vertes array
-Mesh::Mesh(Vertex* vertexArray,const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndices,glm::vec3 position = glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f),glm::vec3 scale = glm::vec3(1.f))
+Mesh::Mesh(Vertex* vertexArray,const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndices,glm::vec3 position = glm::vec3(0.f), glm::vec3 originPos=glm::vec3(0.f), glm::vec3 rotation = glm::vec3(0.f),glm::vec3 scale = glm::vec3(1.f))
 {
     this->position = position;
     this->originPos = originPos;
@@ -107,6 +107,7 @@ Mesh::Mesh(Vertex* vertexArray,const unsigned& nrOfVertices, GLuint* indexArray,
 	this->updateModelMatrix();
 }
 
+//Constructor to make the data in mesh available to the model
 Mesh::Mesh(const Mesh& obj)
 {
     this->position = obj.position;
@@ -179,7 +180,7 @@ void Mesh::rotate(const glm::vec3 rotation)
     this->rotation += rotation;
 }
 
-void Mesh::scaleUp(const glm::vec3 scale)
+void Mesh::scaleMesh(const glm::vec3 scale)
 {
     this->scale += scale;
 }
@@ -211,4 +212,10 @@ void Mesh::render(Shader* shader)
     {
         glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
     }
+
+    //Unbinding vertex array, program, textures
+    glBindVertexArray(0);
+    glUseProgram(0);
+    glActiveTexture(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

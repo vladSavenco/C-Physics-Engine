@@ -11,7 +11,9 @@ enum shader_enum
 
 enum texture_enum
 {
-	TEX_PANZER=0,TEX_PANZER_SPECULAR, TEX_GEORGE, TEX_GEORGE_SPECULAR
+	TEX_PANZER,TEX_PANZER_SPECULAR, TEX_GEORGE, TEX_GEORGE_SPECULAR
+	, TEX_SKYBOX, TEX_SKYBOX_SPECULAR
+	, TEX_GRASS, TEX_GRASS_SPECULAR
 };
 
 enum material_enum
@@ -50,19 +52,19 @@ private:
 	float nearPlane;
 	float farPlane;
 
-	//Shaders
+	//Shaders vector to hold the shaders
 	std::vector<Shader*> shaders;
 
-	//Textures
+	//Textures vector for storing textures
 	std::vector<Texture*> textures;
 
-	//Materiala
+	//Materiala vector for storing materials
 	std::vector<Material*> materials;
 
-	//Meshes
-	std::vector<Mesh*> meshes;
+	//Models vector for storing models
+	std::vector<Model*> models;
 
-	//Lights
+	//Lights vector to hold the lights
 	std::vector<glm::vec3*> lights;
 
 	//After window is created otherwise it will not work.
@@ -73,7 +75,7 @@ private:
 	void initTextures();
 	void initMaterials();
 	void initObjFromFile();
-	void initMeshes();
+	void initModels();
 	void initLights();
 	void initUniforms();
 	void updateUniforms();
