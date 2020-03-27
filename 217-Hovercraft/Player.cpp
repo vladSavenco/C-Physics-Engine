@@ -21,8 +21,8 @@ void Player::Draw()
 	glutSolidCube(1.f);
 	glPopMatrix();
 
-	SpC.Draw();
-	//BoC.Draw();
+	//SpC.Draw();
+	BoC.Draw();
 }
 
 void Player::CalculateForces()
@@ -68,8 +68,8 @@ void Player::Update(float deltaTime)
 	velocity = newVelocity;
 	position = newPosition;
 
-	SpC.ChangePosition(newPosition);
-	//BoC.ChangePosition(newPosition);
+	//SpC.ChangePosition(newPosition);
+	BoC.ChangePosition(newPosition);
 
 	//Dampen
 	velocity *= pow(0.5, deltaTime);

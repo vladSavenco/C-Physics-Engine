@@ -24,8 +24,19 @@ class GameEngine
 	static std::vector<GameObject*> objects;
 	static std::vector<ColisionData*> objData;
 
+	static std::vector<GameObject*> objectsUp;
+	static std::vector<GameObject*> objectsDown;
+
 	static int oldTimeSinceStart;
 	static int newTimeSinceStart;
+
+	static void CollisionBroadphaseVectors();
+
+	static void ShowBroadphaseObjects();
+
+	static void CheckForCollision();
+	static void CollisionResolution();
+	static void CollisionDataCleanup();
 
 	static void UpdateGame(void);
 	static void DrawGame(void);
@@ -34,6 +45,7 @@ class GameEngine
 
 public:
 	void InitEngine(int argc, char** argv, const char* windowTitle, int width, int height);
+
 	void AddGameObject(GameObject*);
 	void StartEngine(void);
 };

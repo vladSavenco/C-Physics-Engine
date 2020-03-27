@@ -12,17 +12,21 @@ private:
 	Texture* TexDiffuse;
 	Texture* TexSpecular;
 	std::vector<Mesh*> meshes;
-	glm::vec3 mainPosition;
 
 	void updateUniforms();
 
 public:
+	glm::vec3 mainPosition;
+
 	Model(glm::vec3 mainPosition, Material* material, Texture* TexDiffuse, Texture* TexSpecular, std::vector<Mesh*>meshes);
 
 	~Model();
 
 	//movement Functions
 	void rotate(const glm::vec3 rotation);
+	void move(const glm::vec3 moveVec);
+
+	void moveModel(const glm::vec3 movement);
 
 	//Rendering function
 	void update();

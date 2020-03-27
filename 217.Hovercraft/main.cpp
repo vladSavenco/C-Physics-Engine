@@ -2,7 +2,7 @@
 
 int main()
 {
-    GameEngine gameEngine("Vlad_Engine", 640, 480, 4, 6, false);
+    GameEngine gameEngine("HoverCraft", 1920, 1080, 4, 6, false);
 
     //Main loop
     while(!gameEngine.GetWindowShouldClose())

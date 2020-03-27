@@ -40,6 +40,26 @@ void Model::rotate(const glm::vec3 rotation)
 	}
 }
 
+void Model::move(const glm::vec3 moveVec)
+{
+	for (auto& i : this->meshes)
+	{
+		i->move(moveVec);
+	}
+}
+
+////Mesh Movement
+//void Model::rotateMesh(int meshId)
+//{
+//	for (int i=0;i<=meshes.size()-1;i++)
+//	{
+//		if (i == meshId)
+//		{
+//			meshes[i]->rotate(glm::vec3(0.f, 0.f, 0.1f));
+//		}
+//	}
+//}
+
 void Model::update()
 {
 

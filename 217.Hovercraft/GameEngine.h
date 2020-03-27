@@ -4,11 +4,13 @@
 #include "ObjectLoader.h"
 
 //Enumerations, for each element. Need to be declared before they are created in the cpp file
+//Shader names enumerator
 enum shader_enum
 {
 	SHADER_CORE_PROGRAM = 0
 };
 
+//Texture names enumerator
 enum texture_enum
 {
 	TEX_PANZER,TEX_PANZER_SPECULAR, TEX_GEORGE, TEX_GEORGE_SPECULAR
@@ -16,11 +18,13 @@ enum texture_enum
 	, TEX_GRASS, TEX_GRASS_SPECULAR
 };
 
+//Material name enumerator
 enum material_enum
 {
 	MAT_1=0
 };
 
+//Mesh name enumerator
 enum mesh_enum
 {
 	MESH_QUAD = 0
@@ -29,19 +33,17 @@ enum mesh_enum
 class GameEngine
 {
 private:
-	//Variables---
-	//Window
+	//Window variable
 	GLFWwindow* window;
+
+	//Window size variables
 	const int Window_Width, window_Height;
 	int frameBufferWidth, frameBufferHeight;
-	//OpenGl Context
+
+	//OpenGl version
 	const int GL_Version_Major, GL_Version_Minor;
 
-	//Funtions Private
-	void initGLFW();
-	void initWindow(const char* title, bool resizable);
-
-	//Matrices
+	//Matrices 
 	glm::mat4 ViewMatrix;
 	glm::vec3 camPosition;
 	glm::vec3 worldUp;
@@ -67,14 +69,14 @@ private:
 	//Lights vector to hold the lights
 	std::vector<glm::vec3*> lights;
 
+	//Initialise GLFW Window
+	void initGLFWWindow(const char* title, bool resizable);
+
 	//After window is created otherwise it will not work.
-	void initGLEW();
-	void initOpenGLOptions();
-	void initMatrices();
-	void initShaders();
+	void InitiateEngine();
+
 	void initTextures();
 	void initMaterials();
-	void initObjFromFile();
 	void initModels();
 	void initLights();
 	void initUniforms();
@@ -96,5 +98,14 @@ public:
 
 	//Static Functions
 	static void frameBuffer_resize_callback(GLFWwindow* window, int fbW, int fbH);
+
+	//Camera movement functions
+	void UpdateCameraInput();
+
+	//Player input
+	void UpdatePlayerInput();
+
+	//Other input functions
+	void CloseWindow();
 };
 

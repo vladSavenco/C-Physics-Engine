@@ -1,4 +1,18 @@
-﻿Cube.obj : error LNK2019: unresolved external symbol __imp_glutSolidCube referenced in function "public: virtual void __cdecl Cube::Draw(void)" (?Draw@Cube@@UEAAXXZ)
+﻿  BoxCollider.cpp
+  ColisionData.cpp
+  ForceGenerator.cpp
+  GameEngine.cpp
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(14,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(75,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\Github\8570390-217CR\217-Hovercraft\GameEngine.cpp(104,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  GameObject.cpp
+  main.cpp
+  Particle.cpp
+  Player.cpp
+  RigidBody2D.cpp
+  SphereCollider.cpp
+  Generating Code...
+BoxCollider.obj : error LNK2019: unresolved external symbol __imp_glutWireCube referenced in function "public: void __cdecl BoxCollider::Draw(void)" (?Draw@BoxCollider@@QEAAXXZ)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glewInit referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitWindowPosition referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitWindowSize referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
@@ -20,8 +34,8 @@ GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitContext
 GameEngine.obj : error LNK2019: unresolved external symbol __imp_glutInitContextProfile referenced in function "public: void __cdecl GameEngine::InitEngine(int,char * *,char const *,int,int)" (?InitEngine@GameEngine@@QEAAXHPEAPEADPEBDHH@Z)
 GameEngine.obj : error LNK2001: unresolved external symbol __imp_glewExperimental
 Particle.obj : error LNK2019: unresolved external symbol __imp_glutSolidSphere referenced in function "public: virtual void __cdecl Particle::Draw(void)" (?Draw@Particle@@UEAAXXZ)
-Player.obj : error LNK2001: unresolved external symbol __imp_glutSolidSphere
+Player.obj : error LNK2019: unresolved external symbol __imp_glutSolidCube referenced in function "public: virtual void __cdecl Player::Draw(void)" (?Draw@Player@@UEAAXXZ)
 SphereCollider.obj : error LNK2019: unresolved external symbol __imp_glutWireSphere referenced in function "public: void __cdecl SphereCollider::Draw(void)" (?Draw@SphereCollider@@QEAAXXZ)
 .\include\freeglut.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
 .\include\glew32.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-E:\Github\8570390-217CR\217-Hovercraft\x64\Debug\217-Hovercraft.exe : fatal error LNK1120: 23 unresolved externals
+E:\Github\8570390-217CR\217-Hovercraft\x64\Debug\217-Hovercraft.exe : fatal error LNK1120: 24 unresolved externals

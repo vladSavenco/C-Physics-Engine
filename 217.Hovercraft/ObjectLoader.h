@@ -160,11 +160,7 @@ static std::vector<Vertex> objectLoader(const char* file)
 			vertices[i].color = glm::vec3(1.f, 1.f, 1.f);
 		}
 
-		//Debug
-		std::cout << "Nr of vertices: " << vertices.size() << "\n";
 	}
-
-	std::cout << "object Loaded" << "\n";
 
 	//Returning the loaded model
 	return vertices;

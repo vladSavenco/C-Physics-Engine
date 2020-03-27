@@ -1,17 +1,11 @@
 #include "GameEngine.h"
 
-//Funtions Private
-
-//Initialise GLFW
-void GameEngine::initGLFW()
+//Initialise the window
+void GameEngine::initGLFWWindow(const char* title, bool resizable)
 {
     //Init GLFW
     glfwInit();
-}
 
-//Initialise the window
-void GameEngine::initWindow(const char* title, bool resizable)
-{
     //Creating the window 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, this->GL_Version_Major);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, this->GL_Version_Minor);
@@ -29,16 +23,13 @@ void GameEngine::initWindow(const char* title, bool resizable)
     glfwMakeContextCurrent(this->window);
 }
 
-//Initialise GLEW
-void GameEngine::initGLEW()
+void GameEngine::InitiateEngine()
 {
+    //Initiate GLEW
     glewExperimental = GL_TRUE;
     glewInit();
-}
 
-//Initialise OpenGLOptions
-void GameEngine::initOpenGLOptions()
-{
+    //Initiate Options
     glEnable(GL_DEPTH_TEST);
 
     glEnable(GL_FRONT);
@@ -49,21 +40,15 @@ void GameEngine::initOpenGLOptions()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
 
-//Initialise Matrices
-void GameEngine::initMatrices()
-{
+    //Initiate MAtricies
     this->ViewMatrix = glm::mat4(1.f);
     this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
 
     this->ProjectionMatrix = glm::mat4(1.f);
     this->ProjectionMatrix = glm::perspective(glm::radians(this->fov), static_cast<float>(this->frameBufferWidth) / this->frameBufferHeight, this->nearPlane, this->farPlane);
-}
 
-//Initialise Shaders
-void GameEngine::initShaders()
-{
+    //Initiate Shader
     this->shaders.push_back(new Shader(this->GL_Version_Major, this->GL_Version_Minor, "vertex_core.glsl", "fragment_core.glsl"));
 }
 
@@ -79,8 +64,8 @@ void GameEngine::initTextures()
     this->textures.push_back(new Texture("Images/georgeSpecular.jpg", GL_TEXTURE_2D));
 
     //Texture 3
-    this->textures.push_back(new Texture("Images/Skybox.jpg", GL_TEXTURE_2D));
-    this->textures.push_back(new Texture("Images/SkyboxSpecular.jpg", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/Skybox.png", GL_TEXTURE_2D));
+    this->textures.push_back(new Texture("Images/SkyboxSpecular.png", GL_TEXTURE_2D));
 
     //Texture 4
     this->textures.push_back(new Texture("Images/Grass.jpg", GL_TEXTURE_2D));
@@ -93,20 +78,33 @@ void GameEngine::initMaterials()
     this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(2.f),0,1));
 }
 
-void GameEngine::initObjFromFile()
-{
-    //std::vector<Vertex>hoverCraft = objectLoader("ObjModels/Hovercraft.obj");
-}
-
+//Initialise Models
 void GameEngine::initModels()
 {
+    //Creating the Player
+    std::vector<Mesh*>player;
+
+    std::vector<Vertex>hovercraft = objectLoader("ObjModels/Hovercraft.obj");
+    std::vector<Vertex>hovercraftBlade = objectLoader("ObjModels/HovercraftBlade.obj");
+
+    //meshes.push_back(new Mesh(&Pyramid(), glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f)));
+    player.push_back(new Mesh(hovercraft.data(), hovercraft.size(), NULL, 0, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f)));
+    player.push_back(new Mesh(hovercraftBlade.data(), hovercraftBlade.size(), NULL, 0, glm::vec3(0.f, 0.16f, 0.25f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f)));
+
+    this->models.push_back(new Model(glm::vec3(0.f, -1.9f, 0.f), this->materials[0], this->textures[TEX_GEORGE], this->textures[TEX_GEORGE_SPECULAR], player));
+
+    for (auto*& i : player)
+    {
+        delete i;
+    }
+
     //Creating the skybox
     std::vector<Mesh*>skyboxMesh;
 
-    std::vector<Vertex>skyBox = objectLoader("ObjModels/Skybox.obj");
+    std::vector<Vertex>skyBox = objectLoader("ObjModels/sphereSkybox.obj");
 
     //meshes.push_back(new Mesh(&Pyramid(), glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f)));
-    skyboxMesh.push_back(new Mesh(skyBox.data(), skyBox.size(),NULL,0, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(10.f)));
+    skyboxMesh.push_back(new Mesh(skyBox.data(), skyBox.size(),NULL,0, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(100.f)));
 
     this->models.push_back(new Model(glm::vec3(0.f,0.f,0.f), this->materials[0], this->textures[TEX_SKYBOX], this->textures[TEX_SKYBOX_SPECULAR],skyboxMesh));
 
@@ -162,11 +160,15 @@ void GameEngine::initUniforms()
 
 void GameEngine::updateUniforms()
 {
+    //Update camera 
+    this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
+    this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ViewMatrix, "ViewMatrix");
+
     //Update framebuffer size and projection matrix
     glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 
     ProjectionMatrix = glm::mat4(1.f);
-    ProjectionMatrix = glm::perspective(glm::radians(fov), static_cast<float>(frameBufferWidth) / frameBufferHeight, nearPlane, farPlane);
+    ProjectionMatrix = glm::perspective(glm::radians(this->fov), static_cast<float>(this->frameBufferWidth) / this->frameBufferHeight, this->nearPlane, this->farPlane);
 
     this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
 }
@@ -190,16 +192,12 @@ GameEngine::GameEngine(const char* title, const int Window_Width, const int Wind
     this->farPlane = 1000.f;
 
     //Run all the initialisation functions
-    this->initGLFW();
-	this->initWindow(title,resizable);
-    this->initGLEW();
-    this->initOpenGLOptions();
+	this->initGLFWWindow(title,resizable);
 
-    this->initMatrices();
-    this->initShaders();
+    this->InitiateEngine();
+
     this->initTextures();
     this->initMaterials();
-    this->initObjFromFile();
     this->initModels();
     this->initLights();
     this->initUniforms();
@@ -255,7 +253,17 @@ void GameEngine::update()
     //Update input
     glfwPollEvents();
 
+    //Moving the camera
+    this->UpdateCameraInput();
+
+    //Moving the player
+    this->UpdatePlayerInput();
+
+    //Other input functions
+    this->CloseWindow();
+
     //models[0]->rotate(glm::vec3(0.f, 0.01f, 0.f));
+
 }
 
 void GameEngine::render()
@@ -290,4 +298,87 @@ void GameEngine::render()
 void GameEngine::frameBuffer_resize_callback(GLFWwindow* window, int fbW, int fbH)
 {
     glViewport(0, 0, fbW, fbH);
+}
+
+//Camera movement function
+void GameEngine::UpdateCameraInput()
+{
+    //Z axys
+    if (glfwGetKey(this->window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        this->camPosition.z -= 0.01f;
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        this->camPosition.z += 0.01f;
+    }
+
+    //X axys
+    if (glfwGetKey(this->window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        this->camPosition.x -= 0.01f;
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        this->camPosition.x += 0.01f;
+    }
+
+    //Y axys
+    if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
+    {
+        this->camPosition.y += 0.005f;
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_V) == GLFW_PRESS)
+    {
+        this->camPosition.y -= 0.005f;
+    }
+}
+
+//Player input
+void GameEngine::UpdatePlayerInput()
+{
+    //y axys rotate
+    if (glfwGetKey(this->window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        models[0]->move(glm::vec3(0.f, 0.f, -0.001f));
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        models[0]->move(glm::vec3(0.f, 0.f, 0.001f));
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        models[0]->move(glm::vec3(-0.001f, 0.f, -0.f));
+    }
+
+    if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        models[0]->move(glm::vec3(0.001f, 0.0f, 0.f));
+    }
+
+    ////X axys
+    //if (glfwGetKey(this->window, GLFW_KEY_E) == GLFW_PRESS)
+    //{
+    //    models[0]->rotate(glm::vec3(0.f, -0.05f, 0.f));
+    //}
+
+    //if (glfwGetKey(this->window, GLFW_KEY_Q) == GLFW_PRESS)
+    //{
+    //    models[0]->rotate(glm::vec3(0.f, 0.05f, 0.f));
+    //}
+
+}
+
+//Other input functions
+void GameEngine::CloseWindow()
+{
+    if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        glfwWindowShouldClose(this->window);
+    }
 }
