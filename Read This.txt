@@ -1,0 +1,8 @@
+GitHub link: https://github.coventry.ac.uk/217CR-1920JANMAY/8570390-217CR
+Youtube video: https://www.youtube.com/watch?v=1wjHCqJTrXc&feature=youtu.be
+
+
+
+Use arrow keys to move
+
+To use box colliders there are 5 pices of code that need to be uncommented.
