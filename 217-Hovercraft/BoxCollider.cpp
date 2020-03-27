@@ -47,23 +47,7 @@ bool BoxCollider::CollideCheck(BoxCollider& other, ColisionData& objData)
 
 	if ((min1x <= max2x && max2x >= min2x) && (min1y <= max2y && max1y >= min2y))
 	{
-		if (min1x < max2x && max1y>min2y)
-		{
-			float a1 = max2x - min1x;
-			float a2 = max1y - min2y;
-
-			objData.depth = sqrt(pow(a1, 2) + pow(a2, 2));
-		}
-
-		else if (min1x < max2x && min1y<max2y)
-		{
-			float a1 = max2x - min1x;
-			float a2 = max2y - min1y;
-
-			objData.depth = sqrt(pow(a1, 2) + pow(a2, 2));
-		}
-
-		else if (max1x> min2x && max1y>min2y)
+		if ((min2x<min1x && min1x<max2x) &&(max2y>max1y && max1y>min2y))
 		{
 			float a1 = max1x - min2x;
 			float a2 = max1y - min2y;
@@ -71,7 +55,23 @@ bool BoxCollider::CollideCheck(BoxCollider& other, ColisionData& objData)
 			objData.depth = sqrt(pow(a1, 2) + pow(a2, 2));
 		}
 
-		else if (max1x > min2x && min1y<max2y)
+		else if ((min2x>min1x && min1x>max2x)&&(min2y<min1y&&min1y<max2y))
+		{
+			float a1 = max2x - min1x;
+			float a2 = max2y - min1y;
+
+			objData.depth = sqrt(pow(a1, 2) + pow(a2, 2));
+		}
+
+		else if ((max2x>max1x && max1x>min2x)&&(max2y>max1y && max1y>min2y))
+		{
+			float a1 = max1x - min2x;
+			float a2 = max1y - min2y;
+
+			objData.depth = sqrt(pow(a1, 2) + pow(a2, 2));
+		}
+
+		else if ((max1x>min2x && max1x<max2x)&&(max2y>min1y && min1y>min2y))
 		{
 			float a1 = max1x-min2x;
 			float a2 = max2y - min1y;

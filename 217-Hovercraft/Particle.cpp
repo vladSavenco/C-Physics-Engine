@@ -18,8 +18,8 @@ void Particle::Draw()
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
 
-	//SpC.Draw();
-	BoC.Draw();
+	SpC.Draw();
+	//BoC.Draw();
 }
 
 void Particle::CalculateForces()
@@ -42,8 +42,8 @@ void Particle::Update(float deltaTime)
 	velocity = newVelocity;
 	position = newPosition;
 
-	//SpC.ChangePosition(newPosition);
-	BoC.ChangePosition(newPosition);
+	SpC.ChangePosition(newPosition);
+	//BoC.ChangePosition(newPosition);
 
 	velocity *= pow(0.5, deltaTime);
 
