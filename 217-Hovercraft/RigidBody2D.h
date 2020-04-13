@@ -24,7 +24,7 @@ private:
 	glm::vec3 force2;
 
 public:
-	RigidBody2D(float mas,float length,float width,glm::vec3 position);
+	RigidBody2D(float mas,float length,float width,glm::vec3 position,std::string cType);
 	~RigidBody2D();
 
 	void Draw();

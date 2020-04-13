@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-RigidBody2D::RigidBody2D(float mas, float length, float width, glm::vec3 position) : GameObject(position,mas)
+RigidBody2D::RigidBody2D(float mas, float length, float width, glm::vec3 position,std::string cType) : GameObject(position,mas,cType)
 {
 	force1 = glm::vec3(1, 0, 0);
 	force2 = glm::vec3(2, 0, 0);

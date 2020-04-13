@@ -19,7 +19,9 @@ public:
 	float orientation;
 	glm::vec3 RotationTotalForce;
 
-	 Player(float mass, glm::vec3 pos);
+	std::string colType;
+
+	 Player(float mass, glm::vec3 pos, std::string cType);
 	 ~Player();
 
 	void Draw();

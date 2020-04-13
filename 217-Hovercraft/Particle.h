@@ -9,7 +9,9 @@ public:
 	glm::vec3 acceleration;
 	glm::vec3 totalForce;
 
-	Particle(float mas, glm::vec3 pos);
+	std::string colType;
+
+	Particle(float mas, glm::vec3 pos,std::string cType);
 	~Particle();
 
 	void CalculateForces();

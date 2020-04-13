@@ -1,9 +1,11 @@
 #include "Particle.h"
 
-Particle::Particle(float mas, glm::vec3 pos) : GameObject(pos,mas)
+Particle::Particle(float mas, glm::vec3 pos,std::string cType) : GameObject(pos,mas,cType)
 {
 	acceleration = glm::vec3(0, 0, 0);
 	totalForce = glm::vec3(0, 0, 0);
+
+	colType = cType;
 }
 
 Particle::~Particle()
@@ -18,8 +20,14 @@ void Particle::Draw()
 	glutSolidSphere(0.5f, 10, 10);
 	glPopMatrix();
 
-	SpC.Draw();
-	//BoC.Draw();
+	if (colType == "sphere")
+	{
+		SpC.Draw();
+	}
+	else if (colType == "box")
+	{
+		BoC.Draw();
+	}
 }
 
 void Particle::CalculateForces()
@@ -42,8 +50,14 @@ void Particle::Update(float deltaTime)
 	velocity = newVelocity;
 	position = newPosition;
 
-	SpC.ChangePosition(newPosition);
-	//BoC.ChangePosition(newPosition);
+	if (colType == "sphere")
+	{
+		SpC.ChangePosition(newPosition);
+	}
+	else if (colType == "box")
+	{
+		BoC.ChangePosition(newPosition);
+	}
 
 	velocity *= pow(0.5, deltaTime);
 

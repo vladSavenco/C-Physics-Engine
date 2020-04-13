@@ -13,11 +13,11 @@ std::vector<GameObject*> particles;
 
 //Creating particles
 //GameObject* particle0 = new Particle(1.0f, glm::vec3(2, 0, 0));
-//GameObject* particle1 = new Particle(1.0f, glm::vec3(1, 0, 0));
-GameObject* particle2 = new Particle(1.0f, glm::vec3(3, 0, 0));
+GameObject* particle1 = new Particle(1.0f, glm::vec3(1, 0, 0),"box");
+GameObject* particle2 = new Particle(1.0f, glm::vec3(3, 0, 0),"sphere");
 
 //Creating the Player
-GameObject* player = new Player(1.0f, glm::vec3(0, 0, 0));
+GameObject* player = new Player(1.0f, glm::vec3(0, 0, 0),"sphere");
 
 //Creating a rigid body
 //GameObject* RigidBody = new RigidBody2D(1,1,1,glm::vec3(0, 0, 0));
@@ -29,13 +29,13 @@ int main(int argc, char** argv)
 {
 	engine.InitEngine(argc, argv, "GameEngine Window", 500, 500);
 
+	engine.AddGameObject(player);
+
 	//engine.AddGameObject(particle0);
-	//engine.AddGameObject(particle1);
+	engine.AddGameObject(particle1);
 	engine.AddGameObject(particle2);
 
 	//engine.AddGameObject(RigidBody);
-
-	engine.AddGameObject(player);
 
 	engine.StartEngine();
 

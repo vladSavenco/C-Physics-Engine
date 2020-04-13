@@ -40,6 +40,18 @@ void GameEngine::CheckForCollision()
 {
 	//Check for collision 
 
+	/*for (int i = 0; i < objectsUp.size(); i++)
+	{
+		for (int j = i + 1; j < objectsUp.size(); j++)
+		{
+			if (objectsUp[i]->colType == "sphere")
+			{
+
+			}
+		}
+	}*/
+
+
 	//UpVector
 	for (int i = 0; i < objectsUp.size(); i++)
 	{
@@ -60,15 +72,9 @@ void GameEngine::CheckForCollision()
 					colData->obj1 = objectsUp[i];
 					colData->obj2 = objectsUp[j];
 					objData.push_back(colData);
-
-					//objectsUp[i]->SpC.collision = true;
-					//objectsUp[j]->SpC.collision = true;
 				}
 				else
 				{
-					//cout << "Not Collided" << '\r';
-					//objectsUp[i]->SpC.collision = false;
-					//objectsUp[j]->SpC.collision = false;
 				}
 
 				//box collisions
@@ -77,15 +83,9 @@ void GameEngine::CheckForCollision()
 					colData->obj1 = objectsUp[i];
 					colData->obj2 = objectsUp[j];
 					objData.push_back(colData);
-
-					//objectsUp[i]->BoC.collision = true;
-					//objectsUp[j]->BoC.collision = true;
 				}
 				else
 				{
-					//cout << "Not Collided" << '\r';
-					//objectsUp[i]->BoC.collision = false;
-					//objectsUp[j]->BoC.collision = false;
 				}
 
 			}
@@ -112,15 +112,9 @@ void GameEngine::CheckForCollision()
 					colData->obj1 = objectsDown[i];
 					colData->obj2 = objectsDown[j];
 					objData.push_back(colData);
-
-					//objectsDown[i]->SpC.collision = true;
-					//objectsDown[j]->SpC.collision = true;
 				}
 				else
 				{
-					//cout << "Not Collided" << '\r';
-					//objectsDown[i]->SpC.collision = false;
-					//objectsDown[j]->SpC.collision = false;
 				}
 
 				//box collisions
@@ -129,15 +123,9 @@ void GameEngine::CheckForCollision()
 					colData->obj1 = objectsDown[i];
 					colData->obj2 = objectsDown[j];
 					objData.push_back(colData);
-
-					//objectsDown[i]->BoC.collision = true;
-					//objectsDown[j]->BoC.collision = true;
 				}
 				else
 				{
-					//cout << "Not Collided" << '\r';
-					//objectsDown[i]->BoC.collision = false;
-					//objectsDown[j]->BoC.collision = false;
 				}
 
 			}

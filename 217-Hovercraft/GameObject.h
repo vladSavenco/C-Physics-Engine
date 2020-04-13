@@ -8,6 +8,8 @@
 #include "SphereCollider.h"
 #include "BoxCollider.h"
 
+#include <iostream>
+
 class GameObject
 {
 
@@ -18,6 +20,7 @@ public:
 	glm::vec3 position;
 	glm::vec3 velocity;
 	float mass;
+	std::string colType;
 
 	static std::map<char, bool> keys;
 	static std::map<int, bool> specialKeys;;
@@ -26,7 +29,7 @@ public:
 	BoxCollider BoC;
 
 	GameObject();
-	GameObject(glm::vec3 pos,float mas);
+	GameObject(glm::vec3 pos,float mas,std::string cType);
 	~GameObject();
 
 	virtual void Draw()=0;
