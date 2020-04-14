@@ -40,19 +40,6 @@ void GameEngine::CheckForCollision()
 {
 	//Check for collision 
 
-	/*for (int i = 0; i < objectsUp.size(); i++)
-	{
-		for (int j = i + 1; j < objectsUp.size(); j++)
-		{
-			if (objectsUp[i]->colType == "sphere")
-			{
-
-			}
-		}
-	}*/
-
-
-	//UpVector
 	for (int i = 0; i < objectsUp.size(); i++)
 	{
 		for (int j = i + 1; j < objectsUp.size(); j++)
@@ -61,38 +48,57 @@ void GameEngine::CheckForCollision()
 			{
 				continue;
 			}
-			else
+
+			else if (objectsUp[i]->colType == "sphere" && objectsUp[j]->colType=="sphere")
 			{
+
+				//cout << "checking Sphere with sphere" << endl;
+
 				ColisionData* colData = nullptr;
 				colData = new ColisionData;
 
-				//sphere collisions
 				if (objectsUp[i]->SpC.CollideCheck(objectsUp[j]->SpC, *colData))
 				{
 					colData->obj1 = objectsUp[i];
 					colData->obj2 = objectsUp[j];
 					objData.push_back(colData);
 				}
-				else
-				{
-				}
+			}
 
-				//box collisions
+			else if (objectsUp[i]->colType == "box" && objectsUp[j]->colType == "box")
+			{
+
+				//cout << "checking box with box" << endl;
+
+				ColisionData* colData = nullptr;
+				colData = new ColisionData;
+
 				if (objectsUp[i]->BoC.CollideCheck(objectsUp[j]->BoC, *colData))
 				{
 					colData->obj1 = objectsUp[i];
 					colData->obj2 = objectsUp[j];
 					objData.push_back(colData);
 				}
-				else
-				{
-				}
+			}
 
+			else if (objectsUp[i]->colType == "box" && objectsUp[j]->colType == "sphere")
+			{
+
+				//cout << "checking box with sphere" << endl;
+
+				ColisionData* colData = nullptr;
+				colData = new ColisionData;
+
+				if (objectsUp[i]->BoC.CollideCheckSphere(objectsUp[j]->SpC, *colData)==true)
+				{
+					colData->obj1 = objectsUp[i];
+					colData->obj2 = objectsUp[j];
+					objData.push_back(colData);
+				}
 			}
 		}
 	}
 
-	//DownVector
 	for (int i = 0; i < objectsDown.size(); i++)
 	{
 		for (int j = i + 1; j < objectsDown.size(); j++)
@@ -101,36 +107,136 @@ void GameEngine::CheckForCollision()
 			{
 				continue;
 			}
-			else
+
+			else if (objectsDown[i]->colType == "sphere" && objectsDown[j]->colType == "sphere")
 			{
+
+				//cout << "checking Sphere with sphere" << endl;
+
 				ColisionData* colData = nullptr;
 				colData = new ColisionData;
 
-				//sphere collisions
 				if (objectsDown[i]->SpC.CollideCheck(objectsDown[j]->SpC, *colData))
 				{
 					colData->obj1 = objectsDown[i];
 					colData->obj2 = objectsDown[j];
 					objData.push_back(colData);
 				}
-				else
-				{
-				}
+			}
 
-				//box collisions
+			else if (objectsDown[i]->colType == "box" && objectsDown[j]->colType == "box")
+			{
+
+				//cout << "checking box with box" << endl;
+
+				ColisionData* colData = nullptr;
+				colData = new ColisionData;
+
 				if (objectsDown[i]->BoC.CollideCheck(objectsDown[j]->BoC, *colData))
 				{
 					colData->obj1 = objectsDown[i];
 					colData->obj2 = objectsDown[j];
 					objData.push_back(colData);
 				}
-				else
-				{
-				}
+			}
 
+			else if (objectsDown[i]->colType == "box" && objectsDown[j]->colType == "sphere")
+			{
+
+				//cout << "checking box with sphere" << endl;
+
+				ColisionData* colData = nullptr;
+				colData = new ColisionData;
+
+				if (objectsDown[i]->BoC.CollideCheckSphere(objectsDown[j]->SpC, *colData) == true)
+				{
+					colData->obj1 = objectsDown[i];
+					colData->obj2 = objectsDown[j];
+					objData.push_back(colData);
+				}
 			}
 		}
 	}
+
+	////UpVector
+	//for (int i = 0; i < objectsUp.size(); i++)
+	//{
+	//	for (int j = i + 1; j < objectsUp.size(); j++)
+	//	{
+	//		if (i == j)
+	//		{
+	//			continue;
+	//		}
+	//		else
+	//		{
+	//			ColisionData* colData = nullptr;
+	//			colData = new ColisionData;
+	//
+	//			//sphere collisions
+	//			if (objectsUp[i]->SpC.CollideCheck(objectsUp[j]->SpC, *colData))
+	//			{
+	//				colData->obj1 = objectsUp[i];
+	//				colData->obj2 = objectsUp[j];
+	//				objData.push_back(colData);
+	//			}
+	//			else
+	//			{
+	//			}
+	//
+	//			//box collisions
+	//			if (objectsUp[i]->BoC.CollideCheck(objectsUp[j]->BoC, *colData))
+	//			{
+	//				colData->obj1 = objectsUp[i];
+	//				colData->obj2 = objectsUp[j];
+	//				objData.push_back(colData);
+	//			}
+	//			else
+	//			{
+	//			}
+	//
+	//		}
+	//	}
+	//}
+
+	////DownVector
+	//for (int i = 0; i < objectsDown.size(); i++)
+	//{
+	//	for (int j = i + 1; j < objectsDown.size(); j++)
+	//	{
+	//		if (i == j)
+	//		{
+	//			continue;
+	//		}
+	//		else
+	//		{
+	//			ColisionData* colData = nullptr;
+	//			colData = new ColisionData;
+	//
+	//			//sphere collisions
+	//			if (objectsDown[i]->SpC.CollideCheck(objectsDown[j]->SpC, *colData))
+	//			{
+	//				colData->obj1 = objectsDown[i];
+	//				colData->obj2 = objectsDown[j];
+	//				objData.push_back(colData);
+	//			}
+	//			else
+	//			{
+	//			}
+	//
+	//			//box collisions
+	//			if (objectsDown[i]->BoC.CollideCheck(objectsDown[j]->BoC, *colData))
+	//			{
+	//				colData->obj1 = objectsDown[i];
+	//				colData->obj2 = objectsDown[j];
+	//				objData.push_back(colData);
+	//			}
+	//			else
+	//			{
+	//			}
+	//
+	//		}
+	//	}
+	//}
 }
 
 void GameEngine::CollisionResolution()

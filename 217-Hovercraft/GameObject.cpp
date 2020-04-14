@@ -18,14 +18,14 @@ GameObject::GameObject(glm::vec3 pos, float mas, std::string cType)
 	if (colType == "sphere")
 	{
 		SpC.position = pos;
-		SpC.radius = 1.0f;
+		SpC.radius = 0.5f;
 		SpC.initialColor = glm::vec3(1.0f, 0.0f, 1.0f);
 	}
 
 	else if (colType == "box")
 	{
 		BoC.position = pos;
-		BoC.colSide = 1.0f;
+		BoC.colSide = 2.0f;
 		BoC.initialColor = glm::vec3(1.0f, 0.0f, 1.0f);
 	}
 }

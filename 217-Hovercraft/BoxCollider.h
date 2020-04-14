@@ -7,6 +7,7 @@
 //#include <iostream>
 #include <vector>
 #include "ColisionData.h"
+#include "SphereCollider.h"
 
 #pragma comment(lib, "glew32.lib") 
 
@@ -29,6 +30,8 @@ public:
 	void checkCollision();
 
 	bool CollideCheck(BoxCollider& other, ColisionData& objData);
+
+	bool CollideCheckSphere(SphereCollider& other, ColisionData& objData);
 
 	void ChangePosition(glm::vec3 newPos);
 

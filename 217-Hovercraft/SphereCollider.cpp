@@ -47,6 +47,7 @@ bool SphereCollider::CollideCheck(SphereCollider& other, ColisionData& objData)
 	}
 }
 
+
 void SphereCollider::ChangePosition(glm::vec3 newPos)
 {
 	position = newPos;
